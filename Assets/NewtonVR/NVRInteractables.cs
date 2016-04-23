@@ -26,7 +26,10 @@ namespace NewtonVR
 
             for (int index = 0; index < colliders.Length; index++)
             {
-                ColliderMapping.Add(colliders[index], interactable);
+                if (!ColliderMapping.ContainsKey(colliders[index]))
+                {
+                    ColliderMapping.Add(colliders[index], interactable);
+                }
             }
         }
 
