@@ -7,6 +7,10 @@ namespace NewtonVR
     {
         [Tooltip("If you have a specific point you'd like the object held at, create a transform there and set it to this variable")]
         public Transform InteractionPoint;
+        public bool DeparentOnPickup = true;
+
+        protected float AttachedRotationMagic = 20f;
+        protected float AttachedPositionMagic = 3000f;
         
         protected Transform PickupTransform;
 
@@ -58,6 +62,22 @@ namespace NewtonVR
         public override void BeginInteraction(NVRHand hand)
         {
             base.BeginInteraction(hand);
+
+            Vector3 closestPoint = Vector3.zero;
+            float shortestDistance = float.MaxValue;
+            for (int index = 0; index < Colliders.Length; index++)
+            {
+                Vector3 closest = Colliders[index].bounds.ClosestPoint(AttachedHand.transform.position);
+                float distance = Vector3.Distance(AttachedHand.transform.position, closest);
+
+                if (distance < shortestDistance)
+                {
+                    shortestDistance = distance;
+                    closestPoint = closest;
+                }
+            }
+
+            if (DeparentOnPickup) transform.parent = null;
 
             PickupTransform = new GameObject(string.Format("[{0}] NVRPickupTransform", this.gameObject.name)).transform;
             PickupTransform.parent = hand.transform;

@@ -7,10 +7,10 @@ namespace NewtonVR
 {
     public class NVRAttachPoint : MonoBehaviour
     {
-        [HideInInspector]
+        //[HideInInspector]
         public Rigidbody Rigidbody;
 
-        [HideInInspector]
+        //[HideInInspector]
         public NVRInteractableItem Item;
 
         public float PositionMagic = 10f;
@@ -50,6 +50,8 @@ namespace NewtonVR
 
         public virtual void Attached(NVRAttachJoint joint)
         {
+            Rigidbody = Item.Rigidbody;
+
             Vector3 TargetPosition = joint.transform.position + (Item.transform.position - this.transform.position);
             Rigidbody.MovePosition(TargetPosition);
 
@@ -61,12 +63,16 @@ namespace NewtonVR
         }
         public virtual void Detached(NVRAttachJoint joint)
         {
+            Rigidbody = Item.Rigidbody;
+
             IsAttached = false;
             Rigidbody.useGravity = true;
         }
 
         public virtual void PullTowards(Vector3 jointPosition)
         {
+            Rigidbody = Item.Rigidbody;
+
             Vector3 delta = jointPosition - this.transform.position;
             Rigidbody.AddForceAtPosition(delta * PositionMagic, this.transform.position, ForceMode.VelocityChange);
         }
