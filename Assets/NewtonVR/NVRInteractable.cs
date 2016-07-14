@@ -86,7 +86,7 @@ namespace NewtonVR
         //Remove items that go too high or too low.
         protected virtual void Update()
         {
-            if (this.transform.position.y > 10000 || this.transform.position.y < -10000)
+            if (this.transform.position.y > int.MaxValue || this.transform.position.y < int.MinValue)
             {
                 if (AttachedHand != null)
                     AttachedHand.EndInteraction(this);

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 using System.Collections;
 
 namespace NewtonVR
@@ -7,7 +8,12 @@ namespace NewtonVR
     {
         [Tooltip("If you have a specific point you'd like the object held at, create a transform there and set it to this variable")]
         public Transform InteractionPoint;
-        public bool DeparentOnPickup = true;
+
+        //[System.Serializable]
+        //public class BeginInteractionEvent : UnityEvent<NVRHand> { };
+        //public BeginInteractionEvent OnBeginInteractionEvent;
+        public UnityEvent OnBeginInteractionEvent;
+        public UnityEvent OnEndInteractionEvent;
 
         protected float AttachedRotationMagic = 20f;
         protected float AttachedPositionMagic = 3000f;
@@ -62,6 +68,7 @@ namespace NewtonVR
         public override void BeginInteraction(NVRHand hand)
         {
             base.BeginInteraction(hand);
+            OnBeginInteractionEvent.Invoke();
 
             Vector3 closestPoint = Vector3.zero;
             float shortestDistance = float.MaxValue;
@@ -88,6 +95,7 @@ namespace NewtonVR
         public override void EndInteraction()
         {
             base.EndInteraction();
+            OnEndInteractionEvent.Invoke();
 
             if (PickupTransform != null)
                 Destroy(PickupTransform.gameObject);
