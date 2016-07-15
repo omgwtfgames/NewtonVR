@@ -9,9 +9,9 @@ namespace NewtonVR
         [Tooltip("If you have a specific point you'd like the object held at, create a transform there and set it to this variable")]
         public Transform InteractionPoint;
 
-        //[System.Serializable]
-        //public class BeginInteractionEvent : UnityEvent<NVRHand> { };
-        //public BeginInteractionEvent OnBeginInteractionEvent;
+        [Tooltip("If this is a child object, remove it from it's parents transform hierarchy when picked up")]
+        public bool DeparentOnPickup = true;
+
         public UnityEvent OnBeginInteractionEvent;
         public UnityEvent OnEndInteractionEvent;
 
